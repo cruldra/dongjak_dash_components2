@@ -1,0 +1,1 @@
+export const DongjakDashComponents2 = React.lazy(() => import(/* webpackChunkName: "DongjakDashComponents2" */ './fragments/DongjakDashComponents2.react'));

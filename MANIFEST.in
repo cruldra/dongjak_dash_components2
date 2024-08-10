@@ -1,0 +1,11 @@
+include dongjak_dash_components2/dongjak_dash_components2.min.js
+include dongjak_dash_components2/dongjak_dash_components2.min.js.map
+include dongjak_dash_components2/async-*.js
+include dongjak_dash_components2/async-*.js.map
+include dongjak_dash_components2/*-shared.js
+include dongjak_dash_components2/*-shared.js.map
+include dongjak_dash_components2/metadata.json
+include dongjak_dash_components2/package-info.json
+include README.md
+include LICENSE
+include package.json
