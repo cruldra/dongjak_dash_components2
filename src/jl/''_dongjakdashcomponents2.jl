@@ -14,10 +14,11 @@ which is editable by the user.
 Keyword arguments:
 - `id` (String; optional): The ID used to identify this component in Dash callbacks.
 - `label` (String; required): A label that will be printed when this component is rendered.
+- `test` (dash component; optional)
 - `value` (String; optional): The value displayed in the input.
 """
 function ''_dongjakdashcomponents2(; kwargs...)
-        available_props = Symbol[:id, :label, :value]
+        available_props = Symbol[:id, :label, :test, :value]
         wild_props = Symbol[]
         return Component("''_dongjakdashcomponents2", "DongjakDashComponents2", "dongjak_dash_components2", available_props, wild_props; kwargs...)
 end

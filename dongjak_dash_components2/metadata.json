@@ -31,6 +31,13 @@
         },
         "required": false,
         "description": "Dash-assigned callback that should be called to report property changes\r\nto Dash, to make them available for callbacks."
+      },
+      "test": {
+        "type": {
+          "name": "element"
+        },
+        "required": false,
+        "description": ""
       }
     }
   }

@@ -7,6 +7,7 @@ app.layout = html.Div([
     dongjak_dash_components2.DongjakDashComponents2(
         id='input',
         value='my-value',
+        test= html.Div(1),
         label='my-label'
     ),
     html.Div(id='output')

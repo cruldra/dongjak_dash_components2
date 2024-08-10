@@ -17,8 +17,8 @@
     "prepublishOnly": "npm run validate-init",
     "build:js": "webpack --mode production",
     "build:backends": "dash-generate-components ./src/lib/components dongjak_dash_components2 -p package-info.json --r-prefix '' --jl-prefix '' --ignore \\.test\\.",
-    "build:backends-activated": "(. venv/bin/activate || venv\\scripts\\activate && npm run build:backends)",
-    "build": "npm run build:js && npm run build:backends",
+    "build:backends-activated": "(.venv\\scripts\\activate && npm run build:backends)",
+    "build": "npm run build:js && npm run build:backends-activated",
     "build:activated": "npm run build:js && npm run build:backends-activated"
   },
   "author": "cruldra <cruldra@gmail.com>",

@@ -9,10 +9,11 @@ import PropTypes from 'prop-types';
  * which is editable by the user.
  */
 const DongjakDashComponents2 = (props) => {
-    const {id, label, setProps, value} = props;
+    const {id, label,test, setProps, value} = props;
 
     return (
         <div id={id}>
+            {test}
             ExampleComponent: {label}&nbsp;
             <input
                 value={value}

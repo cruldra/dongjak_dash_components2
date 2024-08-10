@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { DongjakDashComponents2 as RealComponent } from '../LazyLoader';
+import Prop from "ramda/src/prop";
 
 /**
  * ExampleComponent is an example component.
@@ -39,7 +40,10 @@ DongjakDashComponents2.propTypes = {
      * Dash-assigned callback that should be called to report property changes
      * to Dash, to make them available for callbacks.
      */
-    setProps: PropTypes.func
+    setProps: PropTypes.func,
+
+
+    test: PropTypes.element
 };
 
 export default DongjakDashComponents2;
