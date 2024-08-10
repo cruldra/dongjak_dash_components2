@@ -81,6 +81,7 @@ const parseRouteDef = (route: RouteObjectProps) => {
 
     const navLink = (
         <NavLink
+            key={path}
             label={label}
             leftSection={icon}
             childrenOffset={28}
@@ -111,7 +112,6 @@ const parseRouteDef = (route: RouteObjectProps) => {
  * 管理后台类应用通用布局
  */
 const AdminAppLayout: FC<AdminAppLayoutProps> = ({routes}) => {
-    console.log(routes)
     const routeWithLinks = routes.map(parseRouteDef)
     const router = createBrowserRouter([
         {

@@ -10,19 +10,13 @@ app = dash.Dash(__name__)
 
 app.layout = ddc.AdminAppLayout(
     id="component",
-    # routes=[
-    #     {
-    #         "label": "Home",
-    #         "path": "/home",
-    #         "title": "Home",
-    #         "element": html.Div("Home"),
-    #     }
-    # ],
-    routes= ddc.Route(
-        label="Home",
-        path="/home",
-        element=html.Div("Home"),
-    )
+    routes=[
+        {
+            "label": "Home",
+            "path": "/home",
+            "element": html.Div("Home"),
+        }
+    ]
 )
 
 if __name__ == "__main__":
