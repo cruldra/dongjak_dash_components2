@@ -15,8 +15,18 @@ app.layout = ddc.AdminAppLayout(
             "label": "Home",
             "path": "/home",
             "element": html.Div("Home"),
-        }
-    ]
+        },
+        {
+            "label": "About",
+            "path": "/about",
+            "element": html.Div("About"),
+        },
+        {
+            "label": "Contact",
+            "path": "/contact",
+            "element": html.Div("Contact"),
+        },
+    ],
 )
 
 if __name__ == "__main__":
