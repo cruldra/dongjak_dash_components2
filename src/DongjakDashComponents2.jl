@@ -5,7 +5,9 @@ using Dash
 const resources_path = realpath(joinpath( @__DIR__, "..", "deps"))
 const version = "1.0.0"
 
+include("jl/''_adminapplayout.jl")
 include("jl/''_dongjakdashcomponents2.jl")
+include("jl/''_functioncall.jl")
 
 function __init__()
     DashBase.register_package(
