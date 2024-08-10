@@ -3,24 +3,30 @@ import React, {FC, ReactElement, ReactNode} from 'react';
 import {AppShell, Burger, Group, MantineProvider, NavLink} from '@mantine/core';
 import {MantineLogo} from '@mantinex/mantine-logo';
 import {useDisclosure} from '@mantine/hooks';
-import {Link, Outlet, RouteObject, useNavigate} from 'react-router-dom';
+import {
+    createBrowserRouter,
+    Link,
+    NonIndexRouteObject,
+    Outlet,
+    RouteObject,
+    RouterProvider,
+    useNavigate
+} from 'react-router-dom';
 import {DashComponentProps} from "../props";
 
 //endregion
 
 //region 参数定义
 type AdminAppLayoutProps = {
-    nodes?: ReactNode;
     routes?: RouteObjectProps[];
 } & DashComponentProps
 
 
 type RouteObjectProps = {
-    id: string;
     label: string;
     icon?: React.ReactNode | string;
-    //children?: string[];
-} & Pick<RouteObject, 'path'>;
+    children?: RouteObjectProps[];
+} & Pick<RouteObject, 'path' | 'element'>;
 
 
 type RootLayoutProps = {
@@ -64,12 +70,10 @@ const RootLayout: FC<RootLayoutProps> = ({
  * 解析路由定义
  *
  * @param route 路由定义列表
- * @param nodes 节点列表
  * @returns [路由对象, 导航链接]
  */
-const parseRouteDef = (route: RouteObjectProps, nodes: ReactElement[]) => {
-    const {id, label, icon, path} = route;
-    const element = nodes.find((node) => node.props.id === id);
+const parseRouteDef = (route: RouteObjectProps) => {
+    const {element, label, icon, path} = route;
     const routeObject: RouteObject = {
         path,
         element,
@@ -85,19 +89,19 @@ const parseRouteDef = (route: RouteObjectProps, nodes: ReactElement[]) => {
         />
     );
 
-    // if (route.children) {
-    //     const childRoutes: RouteObject[] = [];
-    //     const childNavLinks: ReactNode[] = [];
+    if (route.children) {
+        const childRoutes: RouteObject[] = [];
+        const childNavLinks: ReactNode[] = [];
 
-    //     route.children.forEach((childRoute) => {
-    //         const [childRouteObject, childNavLink] = parseRouteDef(childRoute,nodes);
-    //         childRoutes.push(childRouteObject as NonIndexRouteObject);
-    //         childNavLinks.push(childNavLink as ReactNode);
-    //     });
+        route.children.forEach((childRoute) => {
+            const [childRouteObject, childNavLink] = parseRouteDef(childRoute);
+            childRoutes.push(childRouteObject as NonIndexRouteObject);
+            childNavLinks.push(childNavLink as ReactNode);
+        });
 
-    //     routeObject.children = childRoutes;
-    //     navLink.props.children = childNavLinks;
-    // }
+        routeObject.children = childRoutes;
+        navLink.props.children = childNavLinks;
+    }
 
     return [routeObject, navLink];
 }
@@ -106,25 +110,22 @@ const parseRouteDef = (route: RouteObjectProps, nodes: ReactElement[]) => {
 /**
  * 管理后台类应用通用布局
  */
-const AdminAppLayout: FC<AdminAppLayoutProps> = ({nodes, setProps}) => {
-    // console.log(nodes)
-    // const routeWithLinks = routes.map(it => parseRouteDef(it, nodes))
-    // const router = createBrowserRouter([
-    //     {
-    //         path: "/",
-    //         element: <RootLayout links={routeWithLinks.map(([route, navLink]) => navLink as ReactElement)} />,
-    //         children: routeWithLinks.map(([route, navLink]) => route as RouteObject),
-    //     },
+const AdminAppLayout: FC<AdminAppLayoutProps> = ({routes}) => {
+    console.log(routes)
+    const routeWithLinks = routes.map(parseRouteDef)
+    const router = createBrowserRouter([
+        {
+            path: "/",
+            element: <RootLayout links={routeWithLinks.map(([route, navLink]) => navLink as ReactElement)}/>,
+            children: routeWithLinks.map(([route, navLink]) => route as RouteObject),
+        },
 
-    // ]);
+    ]);
 
 
     return <>
         <MantineProvider defaultColorScheme="auto">
-            {/* <RouterProvider router={router} /> */}
-            <div>
-                {nodes}
-            </div>
+            <RouterProvider router={router}/>
         </MantineProvider>
     </>
 };
