@@ -121,8 +121,6 @@ const AdminAppLayout: FC<AdminAppLayoutProps> = ({routes}) => {
         },
 
     ]);
-
-
     return <>
         <MantineProvider defaultColorScheme="auto">
             <RouterProvider router={router}/>
