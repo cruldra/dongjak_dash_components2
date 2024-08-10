@@ -1,9 +1,9 @@
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-''DongjakDashComponents2 <- function(id=NULL, label=NULL, test=NULL, value=NULL) {
+''DongjakDashComponents2 <- function(id=NULL, test=NULL) {
     
-    props <- list(id=id, label=label, test=test, value=value)
+    props <- list(id=id, test=test)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -11,7 +11,7 @@
         props = props,
         type = 'DongjakDashComponents2',
         namespace = 'dongjak_dash_components2',
-        propNames = c('id', 'label', 'test', 'value'),
+        propNames = c('id', 'test'),
         package = 'dongjakDashComponents2'
         )
 

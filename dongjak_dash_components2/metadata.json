@@ -1,44 +1,33 @@
 {
-  "src/lib/components/DongjakDashComponents2.react.js": {
-    "description": "ExampleComponent is an example component.\r\nIt takes a property, `label`, and\r\ndisplays it.\r\nIt renders an input with the property `value`\r\nwhich is editable by the user.",
+  "src/ts/components/DongjakDashComponents2.tsx": {
     "displayName": "DongjakDashComponents2",
-    "methods": [],
+    "description": "Component description\r",
     "props": {
-      "id": {
-        "type": {
-          "name": "string"
-        },
-        "required": false,
-        "description": "The ID used to identify this component in Dash callbacks."
-      },
-      "label": {
-        "type": {
-          "name": "string"
-        },
+      "test": {
+        "description": "",
         "required": true,
-        "description": "A label that will be printed when this component is rendered."
-      },
-      "value": {
         "type": {
-          "name": "string"
-        },
+          "name": "node",
+          "raw": "ReactNode"
+        }
+      },
+      "id": {
+        "description": "Unique ID to identify this component in Dash callbacks.",
         "required": false,
-        "description": "The value displayed in the input."
+        "type": {
+          "name": "string",
+          "raw": "string"
+        }
       },
       "setProps": {
+        "description": "Update props to trigger callbacks.",
+        "required": true,
         "type": {
-          "name": "func"
-        },
-        "required": false,
-        "description": "Dash-assigned callback that should be called to report property changes\r\nto Dash, to make them available for callbacks."
-      },
-      "test": {
-        "type": {
-          "name": "element"
-        },
-        "required": false,
-        "description": ""
+          "name": "func",
+          "raw": "(props: Record<string, any>) => void"
+        }
       }
-    }
+    },
+    "isContext": false
   }
 }

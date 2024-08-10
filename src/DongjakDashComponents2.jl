@@ -3,7 +3,7 @@ module DongjakDashComponents2
 using Dash
 
 const resources_path = realpath(joinpath( @__DIR__, "..", "deps"))
-const version = "0.0.1"
+const version = "1.0.0"
 
 include("jl/''_dongjakdashcomponents2.jl")
 
@@ -15,28 +15,14 @@ function __init__()
             version = version,
             [
                 DashBase.Resource(
-    relative_package_path = "async-DongjakDashComponents2.js",
-    external_url = "https://unpkg.com/dongjak_dash_components2@0.0.1/dongjak_dash_components2/async-DongjakDashComponents2.js",
-    dynamic = nothing,
-    async = :true,
-    type = :js
-),
-DashBase.Resource(
-    relative_package_path = "async-DongjakDashComponents2.js.map",
-    external_url = "https://unpkg.com/dongjak_dash_components2@0.0.1/dongjak_dash_components2/async-DongjakDashComponents2.js.map",
-    dynamic = true,
-    async = nothing,
-    type = :js
-),
-DashBase.Resource(
-    relative_package_path = "dongjak_dash_components2.min.js",
+    relative_package_path = "dongjak_dash_components2.js",
     external_url = nothing,
     dynamic = nothing,
     async = nothing,
     type = :js
 ),
 DashBase.Resource(
-    relative_package_path = "dongjak_dash_components2.min.js.map",
+    relative_package_path = "dongjak_dash_components2.js.map",
     external_url = nothing,
     dynamic = true,
     async = nothing,

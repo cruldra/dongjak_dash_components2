@@ -6,19 +6,13 @@ export ''_dongjakdashcomponents2
     ''_dongjakdashcomponents2(;kwargs...)
 
 A DongjakDashComponents2 component.
-ExampleComponent is an example component.
-It takes a property, `label`, and
-displays it.
-It renders an input with the property `value`
-which is editable by the user.
+Component description
 Keyword arguments:
-- `id` (String; optional): The ID used to identify this component in Dash callbacks.
-- `label` (String; required): A label that will be printed when this component is rendered.
-- `test` (dash component; optional)
-- `value` (String; optional): The value displayed in the input.
+- `id` (String; optional): Unique ID to identify this component in Dash callbacks.
+- `test` (a list of or a singular dash component, string or number; required)
 """
 function ''_dongjakdashcomponents2(; kwargs...)
-        available_props = Symbol[:id, :label, :test, :value]
+        available_props = Symbol[:id, :test]
         wild_props = Symbol[]
         return Component("''_dongjakdashcomponents2", "DongjakDashComponents2", "dongjak_dash_components2", available_props, wild_props; kwargs...)
 end
