@@ -10,3 +10,4 @@ src/*.jl
 src/jl
 node_modules
 .idea
+dist
