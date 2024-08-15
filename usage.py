@@ -1,4 +1,5 @@
 from dash import html
+from pydantic import BaseModel
 
 import dongjak_dash_components2 as ddc
 import dash
@@ -51,6 +52,14 @@ app.layout = dmc.MantineProvider(
     ),
     defaultColorScheme="auto",
 )
+
+
+class Input(BaseModel):
+    pass
+
+def test():
+    pass
+
 
 if __name__ == "__main__":
     app.run_server(debug=True)

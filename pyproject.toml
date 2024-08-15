@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "dongjak-dash-components2"
+version = "0.1.0"
+description = ""
+authors = ["cruldra <cruldra@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.8,<=3.12"
+dash = {extras = ["dev"], version = "^2.17.1"}
+pydantic = "^2.8.2"
+
+
+[tool.poetry.group.dev.dependencies]
+dash-mantine-components = "^0.14.4"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
