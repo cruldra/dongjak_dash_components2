@@ -1,3 +1,5 @@
+import React from "react";
+
 /**
  * Every Dash components are given these props.
  * Use with your own props:
@@ -19,3 +21,19 @@ export type DashComponentProps = {
      */
     setProps: (props: Record<string, any>) => void;
 }
+
+
+export  type FunctionCallProps = {
+    /**
+     * 函数的文档,在顶部显示
+     */
+    docs?: React.ReactNode;
+    /**
+     * 函数的输入
+     */
+    inputs?: React.ReactNode;
+    /**
+     * 函数的输出
+     */
+    outputs?: React.ReactNode;
+} & DashComponentProps;

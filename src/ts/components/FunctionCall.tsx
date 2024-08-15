@@ -1,62 +1,30 @@
 import React, {FC} from "react";
-import {DashComponentProps} from "../props";
+import {FunctionCallProps} from "../props";
+import {Group, Stack} from '@mantine/core';
 
-interface Props extends DashComponentProps {
-    inputs?: React.ReactNode;
-    outputs?: React.ReactNode;
-    docs?: React.ReactNode;
-}
-
-const FunctionCall: FC<Props> = ({
-                                     inputs,
-                                     outputs,
-                                     docs,
-                                     ...rest
-                                 }) => {
-    return <div style={{
-        width: "100%",
-        height: "100%",
-        display: "flex",
-        flexDirection: "column",
-        rowGap: "1rem",
-    }} {...rest}>
-
-        <div style={{
-            width: "100%",
-            margin: "10px",
-        }}>
-            {docs}
-        </div>
-
-        <div style={{
-            width: "100%",
-            height: "100%",
-            display: "flex",
-            flexDirection: "row",
-            gap: "1rem",
-        }}>
-
-            <div style={{
-                display: "flex",
-                flexDirection: "column",
-                rowGap: "1rem",
-            }}>
+const FunctionCall: FC<FunctionCallProps> = ({
+                                                 inputs,
+                                                 outputs,
+                                                 docs,
+                                                 ...rest
+                                             }) => {
+    return <Stack
+        bg="var(--mantine-color-body)"
+        align="stretch"
+        justify="flex-start"
+        gap="md"
+        className={"dev-border-blue p-2 fullwh"}
+    >
+        {docs}
+        <Group h={500} className={"dev-border-red p-2"} wrap="nowrap" gap={"sm"}>
+            <Stack className={"dev-border-yellow  h-100% w-40%  "}>
                 {inputs}
-            </div>
-
-            <div style={{
-                display: "flex",
-                flexDirection: "column",
-                rowGap: "1rem",
-                flex: 1,
-                justifyContent: "flex-start",
-                alignItems: "center",
-                margin: "10px",
-            }}>
+            </Stack>
+            <Stack className={"dev-border-yellow   h-100% w-60%"}>
                 {outputs}
-            </div>
-        </div>
-    </div>
+            </Stack>
+        </Group>
+    </Stack>
 };
 
 
