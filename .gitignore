@@ -1,8 +1,8 @@
 .venv
 deps
 dongjak_dash_components2/*
-!dongjak_dash_components/__init__.py
-!dongjak_dash_components/starter.py
+!dongjak_dash_components2/__init__.py
+!dongjak_dash_components2/starter.py
 dongjak_dash_components2.egg-info
 inst
 man
