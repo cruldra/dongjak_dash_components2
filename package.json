@@ -1,6 +1,6 @@
 {
   "name": "dongjak_dash_components2",
-  "version": "0.0.6",
+  "version": "0.0.9",
   "description": "Project Description",
   "main": "index.ts",
   "repository": {
@@ -45,5 +45,10 @@
     "react-dom": "^18.2.0"
   },
   "author": "cruldra <cruldra@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@mantine/dates": "^7.12.1",
+    "dayjs": "^1.11.12",
+    "is-absolute-url": "^4.0.1"
+  }
 }

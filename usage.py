@@ -55,12 +55,7 @@ app.layout = ddc.MantineProvider(
 
 app = function_testing_app(
     inputs=[
-        ddc.ColorInput(
-            disallowInput=True,
-            label="Your favorite color",
-            value="#e05e5e",
-            w=250,
-        ),
+        ddc.TextInput(label="关键字:", required=True , placeholder="留学"),
         ddc.Checkbox(
             id="checkbox-state",
             label="I agree to sell my privacy",

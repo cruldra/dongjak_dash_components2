@@ -14,6 +14,8 @@ def function_testing_app(docs=None, inputs=None, outputs=None):
     _dash_renderer._set_react_version("18.2.0")
     app = dash.Dash(__name__)
     app.layout = ddc.MantineProvider(
-        ddc.FunctionCall(docs=docs, inputs=inputs, outputs=outputs)
+        ddc.FunctionCall(
+            docs=docs, inputs=inputs, outputs=outputs, style={"padding": "50px"}
+        )
     )
     return app
