@@ -13,6 +13,7 @@ pydantic = "^2.8.2"
 
 [tool.poetry.group.dev.dependencies]
 dash-mantine-components = "^0.14.4"
+black = "^24.8.0"
 
 [build-system]
 requires = ["poetry-core"]

@@ -5,6 +5,8 @@ import dongjak_dash_components2 as ddc
 import dash
 from dash import Dash, _dash_renderer
 
+from dongjak_dash_components2.starter import function_testing_app
+
 _dash_renderer._set_react_version("18.2.0")
 app = dash.Dash(__name__)
 
@@ -51,11 +53,29 @@ app.layout = ddc.MantineProvider(
     )
 )
 
+app = function_testing_app(
+    inputs=[
+        ddc.ColorInput(
+            disallowInput=True,
+            label="Your favorite color",
+            value="#e05e5e",
+            w=250,
+        ),
+        ddc.Checkbox(
+            id="checkbox-state",
+            label="I agree to sell my privacy",
+            checked=True,
+            mb=10,
+        ),
+    ]
+)
+
 
 class Input(BaseModel):
     keyword: str
     """关键字"""
     start_count: int
+
 
 def test():
     pass
