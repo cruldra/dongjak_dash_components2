@@ -1,6 +1,6 @@
 //region 导入
 import React, {FC, ReactElement, ReactNode} from 'react';
-import {AppShell, Burger, Group, MantineProvider, NavLink} from '@mantine/core';
+import {AppShell, Burger, Group, NavLink} from '@mantine/core';
 import {MantineLogo} from '@mantinex/mantine-logo';
 import {useDisclosure} from '@mantine/hooks';
 import {
@@ -12,14 +12,14 @@ import {
     RouterProvider,
     useNavigate
 } from 'react-router-dom';
-import {DashComponentProps} from "../props";
+import {DashBaseProps} from "../props/dash";
 
 //endregion
 
 //region 参数定义
 type AdminAppLayoutProps = {
     routes?: RouteObjectProps[];
-} & DashComponentProps
+} & DashBaseProps
 
 
 type RouteObjectProps = {
@@ -122,9 +122,7 @@ const AdminAppLayout: FC<AdminAppLayoutProps> = ({routes}) => {
 
     ]);
     return <>
-        <MantineProvider defaultColorScheme="auto">
-            <RouterProvider router={router}/>
-        </MantineProvider>
+        <RouterProvider router={router}/>
     </>
 };
 //endregion

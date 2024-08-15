@@ -1,14 +1,28 @@
 import React, {FC} from "react";
-import {FunctionCallProps} from "../props";
-import {Group, Stack} from '@mantine/core';
+import {DashBaseProps} from "props/dash";
+import {Group, MantineProvider, Stack} from '@mantine/core';
 
+type FunctionCallProps = {
+    /**
+     * 函数的文档,在顶部显示
+     */
+    docs?: React.ReactNode;
+    /**
+     * 函数的输入
+     */
+    inputs?: React.ReactNode;
+    /**
+     * 函数的输出
+     */
+    outputs?: React.ReactNode;
+} & DashBaseProps;
 const FunctionCall: FC<FunctionCallProps> = ({
                                                  inputs,
                                                  outputs,
                                                  docs,
                                                  ...rest
                                              }) => {
-    return <Stack
+    return  <Stack
         bg="var(--mantine-color-body)"
         align="stretch"
         justify="flex-start"

@@ -1,7 +1,11 @@
 # AUTO GENERATED FILE - DO NOT EDIT
 
 export(''AdminAppLayout)
+export(''Alert)
+export(''Checkbox)
+export(''ColorInput)
 export(''FunctionCall)
+export(''MantineProvider)
 export(DongjakDashComponents2)
 export(ReactRoute)
 export(Route)

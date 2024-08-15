@@ -3,13 +3,12 @@ from pydantic import BaseModel
 
 import dongjak_dash_components2 as ddc
 import dash
-import dash_mantine_components as dmc
 from dash import Dash, _dash_renderer
 
 _dash_renderer._set_react_version("18.2.0")
 app = dash.Dash(__name__)
 
-app.layout = dmc.MantineProvider(
+app.layout = ddc.MantineProvider(
     ddc.AdminAppLayout(
         id="component",
         routes=[
@@ -17,18 +16,18 @@ app.layout = dmc.MantineProvider(
                 "label": "Home",
                 "path": "/home",
                 "element": ddc.FunctionCall(
-                    docs=dmc.Alert(
+                    docs=ddc.Alert(
                         "Something happened! You made a mistake and there is no going back, your data was lost forever!",
                         title="Simple Alert!",
                     ),
                     inputs=[
-                        dmc.ColorInput(
+                        ddc.ColorInput(
                             disallowInput=True,
                             label="Your favorite color",
                             value="#e05e5e",
                             w=250,
                         ),
-                        dmc.Checkbox(
+                        ddc.Checkbox(
                             id="checkbox-state",
                             label="I agree to sell my privacy",
                             checked=True,
@@ -49,13 +48,14 @@ app.layout = dmc.MantineProvider(
                 "element": html.Div("Contact"),
             },
         ],
-    ),
-    defaultColorScheme="auto",
+    )
 )
 
 
 class Input(BaseModel):
-    pass
+    keyword: str
+    """关键字"""
+    start_count: int
 
 def test():
     pass
