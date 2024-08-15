@@ -1,5 +1,5 @@
 from dash import html
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 import dongjak_dash_components2 as ddc
 import dash
@@ -65,15 +65,27 @@ app = function_testing_app(
     ]
 )
 
-
-class Input(BaseModel):
-    keyword: str
-    """关键字"""
-    start_count: int
+## 这里有一个pydantic模型
 
 
-def test():
-    pass
+
+## 现在需要创建一个名叫 @dash_form 的装饰器包装这个模型
+## 这个装饰器会给模型类添加一个 to_dash_form 方法
+## 这个方法先把当前pydantic模型转json_schema，再根据json_schema生成dash组件
+## 装饰器使用wrapt这个库
+## dash组件代码模板如下:
+## 文本框: ddc.TextInput(label="关键字:", required=True , placeholder="留学"),
+## 数字框: dmc.NumberInput(
+#     label="Your weight in kg",
+#     description="From 0 to infinity, in steps of 5",
+#     value=5,
+#     min=0,
+#     step=5,
+#     w=250,
+# )
+## 复选框:  dmc.Checkbox(
+        #     id="checkbox-state", label="I agree to sell my privacy", checked=True, mb=10
+        # ),
 
 
 if __name__ == "__main__":

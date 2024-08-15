@@ -7,6 +7,10 @@ import MantineProvider from "./components/MantineProvider";
 import CheckboxGroup from "./components/CheckboxGroup";
 import Select from "./components/Select";
 import TextInput from "./components/TextInput";
+import NumberInput from "./components/NumberInput";
+import Button from "./components/Button";
+import Notification from "./components/Notification";
+import NotificationProvider from "./components/NotificationProvider";
 
 export {
     FunctionCall,
@@ -17,5 +21,9 @@ export {
     MantineProvider,
     CheckboxGroup,
     Select,
-    TextInput
+    TextInput,
+    NumberInput,
+    Button,
+    Notification,
+    NotificationProvider,
 }

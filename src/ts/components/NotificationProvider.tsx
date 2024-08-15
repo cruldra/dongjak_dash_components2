@@ -3,7 +3,7 @@ import { BoxProps } from "props/box";
 import { DashBaseProps } from "props/dash";
 import { StylesApiProps } from "props/styles";
 import React from "react";
-
+import "@mantine/notifications/styles.css";
 interface Props extends BoxProps, StylesApiProps, DashBaseProps {
     /** Notifications position, `'bottom-right'` by default */
     position?:
