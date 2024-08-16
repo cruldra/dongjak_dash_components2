@@ -179,13 +179,49 @@ def convert_pydantic_model_to_dash_form(
             ids[key] = com_id
             operations[key] = DashComponentOperations(com_id)
         elif value.type == "boolean":
-            raise NotImplementedError
+            com_id = f"checkbox-{shortuuid.uuid()}"
+            dash_components.append(
+                ddc.Checkbox(
+                    id=com_id,
+                    label=value.title,
+                    description=value.description if value.description else None,
+                    checked=value.default if value.default else False,
+                    # required=key in required,
+                )
+            )
+            ids[key] = com_id
+            # raise NotImplementedError
         elif value.type == "array":
-            raise NotImplementedError
+            com_id = f"select-{shortuuid.uuid()}"
+            dash_components.append(
+                ddc.Select(
+                    id=com_id,
+                    label=value.title,
+                    description=value.description if value.description else None,
+                    placeholder=value.placeholder,
+                    value=value.default,
+                    data=value.data,
+                    required=key in required,
+                ),
+            )
+            ids[key] = com_id
+            # raise NotImplementedError
         elif value.type == "object":
             raise NotImplementedError
         elif value.type == "null":
-            raise NotImplementedError
+            com_id = f"alert-{shortuuid.uuid()}"
+            dash_components.append(
+                ddc.Alert(
+                    value.content,
+                    id=com_id,
+                    title=value.title,
+                    color=value.color,
+                    # duration=value.duration,
+                    # required=key in required,
+                ),
+            )
+            ids[key] = com_id
+            # raise NotImplementedError
         else:
             raise NotImplementedError
     if others:
@@ -208,6 +244,21 @@ class Input(BaseModel):
     fetch_count: int = Field(title="抓取数量", default=10, ge=1, le=200)
     star_count: int = Field(
         title="点赞数量", description="仅抓取点赞数量大于该值的视频", default=None
+    )
+    alert: None = Field(
+        title="我是提示", content="您的余额不足，请充值", color="blue"
+    )
+    author: bool = Field(
+        title="作者", description="作者选择", default=True
+    )
+    duration: list = Field(
+        title="时长", description="视频时长", placeholder="请选择视频时长", 
+        default="5",
+        data=[
+            {"value": "1", "label": "1分钟"},
+            {"value": "3", "label": "3分钟"},
+            {"value": "5", "label": "5分钟"},
+        ]
     )
 
 
