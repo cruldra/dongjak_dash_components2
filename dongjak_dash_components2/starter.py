@@ -12,7 +12,52 @@ from pydantic_i18n import PydanticI18n
 import dongjak_dash_components2 as ddc
 
 
-def function_testing_app(docs=None, inputs=None, outputs=None):
+class DashComponentOperations:
+    def __init__(self, cmp_id: str):
+        self.cmp_id = cmp_id
+
+    def as_callback_input(self, property_name: str = "value"):
+        return dash.dependencies.Input(self.cmp_id, property_name)
+
+    def as_callback_state(self, property_name: str = "value"):
+        return dash.dependencies.State(self.cmp_id, property_name)
+
+    def as_callback_output(self, property_name: str = "children", allow_duplicate: bool = True):
+        return dash.dependencies.Output(self.cmp_id, property_name, allow_duplicate)
+
+
+class MantineButtonOperations(DashComponentOperations):
+    def __init__(self, cmp_id: str):
+        super().__init__(cmp_id)
+
+    def n_clicks_as_input(self):
+        return self.as_callback_input("n_clicks")
+
+
+class MantineNotificationOperations(DashComponentOperations):
+    def __init__(self, cmp_id: str):
+        super().__init__(cmp_id)
+
+    def show_success(self, message: str):
+        return ddc.Notification(
+            title="成功",
+            id=f"notification-{shortuuid.uuid()}",  # 生成一个随机id
+            action="show",
+            message=message,
+            icon=DashIconify(icon="ic:round-celebration"),
+        )
+
+    def show_error(self, message: str):
+        return ddc.Notification(
+            title="错误",
+            id=f"notification-{shortuuid.uuid()}",  # 生成一个随机id
+            action="show",
+            message=message,
+            icon=DashIconify(icon="ant-design:exclamation-outlined"),
+        )
+
+
+def function_testing_app(docs=None, inputs=None, outputs=None, notifications_container_id="notifications-container"):
     """
     快速创建一个用于函数测试的Dash应用
 
@@ -34,10 +79,11 @@ def function_testing_app(docs=None, inputs=None, outputs=None):
 
     ```python
 
-    comps, ids = convert_pydantic_model_to_dash_form(Input)
+    comps, ids, operations = convert_pydantic_model_to_dash_form(Input)
 
     app = function_testing_app(
         inputs=comps,
+        notifications_container_id=ids.notification
     )
 
     ```
@@ -48,35 +94,30 @@ def function_testing_app(docs=None, inputs=None, outputs=None):
     ```python
 
     @app.callback(
-        dash.dependencies.Output(ids.notification, "children", allow_duplicate=True),
-        dash.dependencies.Input(ids.submit_button, "n_clicks"),
-        dash.dependencies.State(ids.keyword, "value"),
+        operations.notification.as_callback_output(),
+        operations.submit_button.n_clicks_as_input(),
+        operations.keyword.as_callback_state(),
         prevent_initial_call=True,
     )
     def callback(n_clicks, keyword):
         validate_res = is_valid(Input, 1,{"keyword": keyword})
         if validate_res is not True:
             return validate_res
-        return ddc.Notification(
-            title="Hey there!",
-            id="simple-notify",
-            action="show",
-            message="Notifications in Dash, Awesome!",
-            icon=DashIconify(icon="ic:round-celebration"),
-        )
+        return operations.notification.show_success("验证成功")
 
     ```
 
     :param docs: 文档字符串
     :param inputs: 输入参数
     :param outputs: 输出参数
+    :param notifications_container_id: 通知容器id
     """
     _dash_renderer._set_react_version("18.2.0")
     app = dash.Dash(__name__)
     app.layout = ddc.MantineProvider(
         [
             ddc.NotificationProvider(position="top-right"),
-            html.Div(id="notifications-container"),
+            html.Div(id=notifications_container_id),
             ddc.FunctionCall(
                 docs=docs, inputs=inputs, outputs=outputs, style={"padding": "50px"}
             ),
@@ -90,7 +131,7 @@ def convert_pydantic_model_to_dash_form(
         others: list[Tuple[int, Any]] = None,
         submit_button: bool = True,
         submit_button_label: str = "提交",
-) -> (list, Dict):
+) -> Tuple[list, Dict[str, str], Dict[str, DashComponentOperations]]:
     """
     将Pydantic模型转换为Dash表单
 
@@ -100,9 +141,10 @@ def convert_pydantic_model_to_dash_form(
     :param submit_button_label: 提交按钮标签
     """
     dict = Dict(model.model_json_schema())
-    print(dict)
+    # print(dict)
     dash_components = []
     ids = Dict()
+    operations = Dict()
     required = dict.required
     # 遍历 properties
     for key, value in dict.properties.items():
@@ -118,6 +160,7 @@ def convert_pydantic_model_to_dash_form(
                 )
             )
             ids[key] = com_id
+            operations[key] = DashComponentOperations(com_id)
         elif value.type == "integer" or value.type == "number":
             com_id = f"number-input-{shortuuid.uuid()}"
             dash_components.append(
@@ -125,11 +168,12 @@ def convert_pydantic_model_to_dash_form(
                     id=com_id,
                     label=value.title,
                     placeholder=value.description if value.description else None,
-                    value=value.default if value.default else None,
+                    value=value.default if value.default is not None else None,
                     required=key in required,
                 )
             )
             ids[key] = com_id
+            operations[key] = DashComponentOperations(com_id)
         elif value.type == "boolean":
             raise NotImplementedError
         elif value.type == "array":
@@ -148,8 +192,10 @@ def convert_pydantic_model_to_dash_form(
         submit_button_id = f"submit-button-{shortuuid.uuid()}"
         dash_components.append(ddc.Button(submit_button_label, id=submit_button_id))
         ids["submit_button"] = submit_button_id
-    ids["notification"] = "notifications-container"
-    return dash_components, ids
+        operations["submit_button"] = MantineButtonOperations(submit_button_id)
+    ids["notification"] = f"notifications-container-{shortuuid.uuid()}"
+    operations["notification"] = MantineNotificationOperations(ids["notification"])
+    return dash_components, ids, operations
 
 
 class Input(BaseModel):
@@ -160,11 +206,11 @@ class Input(BaseModel):
     )
 
 
-comps, ids = convert_pydantic_model_to_dash_form(Input)
+comps, ids, operations = convert_pydantic_model_to_dash_form(Input)
 app = function_testing_app(
     inputs=comps,
+    notifications_container_id=ids.notification
 )
-
 
 # def validate(model_type: type, return_args_count: int):
 #     @wrapt.decorator
@@ -195,44 +241,40 @@ translations = {
     },
     'zh_CN': {
         'Input should be a valid string': '字段是必填项。',
-        'value_error.number.not_ge': '数值必须大于或等于 {limit_value}。',
+        "Input should be a valid integer": "字段必须是整数"
     }
 }
 i18n = PydanticI18n(translations)
+
+
 # 使用中文错误消息
-def is_valid(model_type: type,return_args_count: int, kwargs: dict):
+def is_valid(model_type: type, return_args_count: int, kwargs: dict):
     try:
         model = model_type(**kwargs)
     except ValidationError as e:
-        ne=i18n.translate(e.errors(),"zh_CN")
+        ne = i18n.translate(e.errors(), "zh_CN")
         return ddc.Notification(
             title="错误",
             id="error-notification",
             action="show",
             message=f"验证失败,{ne[0]['loc'][0]}{ne[0]['msg']}",
             icon=DashIconify(icon="ant-design:exclamation-outlined"),
-        ),*([None] * (return_args_count - 1))
+        ), *([None] * (return_args_count - 1))
     return True
 
 
 @app.callback(
-    dash.dependencies.Output(ids.notification, "children", allow_duplicate=True),
-    dash.dependencies.Input(ids.submit_button, "n_clicks"),
-    dash.dependencies.State(ids.keyword, "value"),
+    operations.notification.as_callback_output(),
+    operations.submit_button.n_clicks_as_input(),
+    operations.keyword.as_callback_state(),
     prevent_initial_call=True,
 )
 # @validate(Input, 1)
 def callback(n_clicks, keyword):
-    validate_res = is_valid(Input, 1,{"keyword": keyword})
+    validate_res = is_valid(Input, 1, {"keyword": keyword})
     if validate_res is not True:
         return validate_res
-    return ddc.Notification(
-        title="Hey there!",
-        id="simple-notify",
-        action="show",
-        message="Notifications in Dash, Awesome!",
-        icon=DashIconify(icon="ic:round-celebration"),
-    )
+    return operations.notification.show_success("验证成功")
 
 
 if __name__ == "__main__":
