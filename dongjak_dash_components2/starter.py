@@ -3,7 +3,7 @@ import dash
 import shortuuid
 import wrapt
 from addict import Dict
-from dash import _dash_renderer, html
+from dash import _dash_renderer, html, dcc
 from dash.exceptions import PreventUpdate
 from dash_iconify import DashIconify
 from pydantic import BaseModel, Field, ValidationError
@@ -57,6 +57,7 @@ class MantineNotificationOperations(DashComponentOperations):
         )
 
 
+# region 创建函数测试界面
 def function_testing_app(docs=None, inputs=None, outputs=None, notifications_container_id="notifications-container"):
     """
     快速创建一个用于函数测试的Dash应用
@@ -117,6 +118,7 @@ def function_testing_app(docs=None, inputs=None, outputs=None, notifications_con
     app.layout = ddc.MantineProvider(
         [
             ddc.NotificationProvider(position="top-right"),
+            dcc.Location(id='url', refresh=False),
             html.Div(id=notifications_container_id),
             ddc.FunctionCall(
                 docs=docs, inputs=inputs, outputs=outputs, style={"padding": "50px"}
@@ -124,8 +126,10 @@ def function_testing_app(docs=None, inputs=None, outputs=None, notifications_con
         ]
     )
     return app
+# endregion
 
 
+# region pydantic模型转换为dash表单
 def convert_pydantic_model_to_dash_form(
         model: type,
         others: list[Tuple[int, Any]] = None,
@@ -196,6 +200,7 @@ def convert_pydantic_model_to_dash_form(
     ids["notification"] = f"notifications-container-{shortuuid.uuid()}"
     operations["notification"] = MantineNotificationOperations(ids["notification"])
     return dash_components, ids, operations
+# endregion
 
 
 class Input(BaseModel):
