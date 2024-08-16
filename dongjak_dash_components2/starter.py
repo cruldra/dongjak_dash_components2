@@ -1,11 +1,13 @@
 from typing import Tuple, Any
-
 import dash
 import shortuuid
+import wrapt
 from addict import Dict
 from dash import _dash_renderer, html
+from dash.exceptions import PreventUpdate
 from dash_iconify import DashIconify
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ValidationError
+from pydantic_i18n import PydanticI18n
 
 import dongjak_dash_components2 as ddc
 
@@ -13,6 +15,57 @@ import dongjak_dash_components2 as ddc
 def function_testing_app(docs=None, inputs=None, outputs=None):
     """
     快速创建一个用于函数测试的Dash应用
+
+
+    首先定义模型:
+
+    ```python
+
+    class Input(BaseModel):
+        keyword: str = Field(title="关键字", description="搜索关键字,比如: 留学")
+        fetch_count: int = Field(title="抓取数量", default=10, ge=1, le=200)
+        star_count: int = Field(
+            title="点赞数量", description="仅抓取点赞数量大于该值的视频", default=None
+        )
+
+    ```
+
+    然后基于这个模型生成dash应用:
+
+    ```python
+
+    comps, ids = convert_pydantic_model_to_dash_form(Input)
+
+    app = function_testing_app(
+        inputs=comps,
+    )
+
+    ```
+
+    最后处理回调:
+
+
+    ```python
+
+    @app.callback(
+        dash.dependencies.Output(ids.notification, "children", allow_duplicate=True),
+        dash.dependencies.Input(ids.submit_button, "n_clicks"),
+        dash.dependencies.State(ids.keyword, "value"),
+        prevent_initial_call=True,
+    )
+    def callback(n_clicks, keyword):
+        validate_res = is_valid(Input, 1,{"keyword": keyword})
+        if validate_res is not True:
+            return validate_res
+        return ddc.Notification(
+            title="Hey there!",
+            id="simple-notify",
+            action="show",
+            message="Notifications in Dash, Awesome!",
+            icon=DashIconify(icon="ic:round-celebration"),
+        )
+
+    ```
 
     :param docs: 文档字符串
     :param inputs: 输入参数
@@ -26,14 +79,15 @@ def function_testing_app(docs=None, inputs=None, outputs=None):
             html.Div(id="notifications-container"),
             ddc.FunctionCall(
                 docs=docs, inputs=inputs, outputs=outputs, style={"padding": "50px"}
-            )
+            ),
         ]
     )
     return app
 
 
 def convert_pydantic_model_to_dash_form(
-        model: type, others: list[Tuple[int, Any]] = None,
+        model: type,
+        others: list[Tuple[int, Any]] = None,
         submit_button: bool = True,
         submit_button_label: str = "提交",
 ) -> (list, Dict):
@@ -92,12 +146,7 @@ def convert_pydantic_model_to_dash_form(
 
     if submit_button:
         submit_button_id = f"submit-button-{shortuuid.uuid()}"
-        dash_components.append(
-            ddc.Button(
-                submit_button_label,
-                id=submit_button_id
-            )
-        )
+        dash_components.append(ddc.Button(submit_button_label, id=submit_button_id))
         ids["submit_button"] = submit_button_id
     ids["notification"] = "notifications-container"
     return dash_components, ids
@@ -117,12 +166,66 @@ app = function_testing_app(
 )
 
 
+# def validate(model_type: type, return_args_count: int):
+#     @wrapt.decorator
+#     def wrapper(wrapped, instance, args, kwargs):
+#         if args[0] is None:
+#             raise PreventUpdate
+#         try:
+#             model = model_type(*args[1:])
+#         except ValidationError as e:
+#             return (
+#                 ddc.Notification(
+#                     title="错误",
+#                     id="error-notification",
+#                     action="show",
+#                     message=f"次数已用完,请充值",
+#                     icon=DashIconify(icon="ant-design:exclamation-outlined"),
+#                 ),
+#                 *([None] * (return_args_count - 1)),
+#             )
+#         return wrapped(*args, **kwargs)
+#
+#     return wrapper
+# 定义翻译
+translations = {
+    'en_US': {
+        'field required': 'This field is required.',
+        'value_error.number.not_ge': 'Value must be greater than or equal to {limit_value}.',
+    },
+    'zh_CN': {
+        'Input should be a valid string': '字段是必填项。',
+        'value_error.number.not_ge': '数值必须大于或等于 {limit_value}。',
+    }
+}
+i18n = PydanticI18n(translations)
+# 使用中文错误消息
+def is_valid(model_type: type,return_args_count: int, kwargs: dict):
+    try:
+        model = model_type(**kwargs)
+    except ValidationError as e:
+        ne=i18n.translate(e.errors(),"zh_CN")
+        return ddc.Notification(
+            title="错误",
+            id="error-notification",
+            action="show",
+            message=f"验证失败,{ne[0]['loc'][0]}{ne[0]['msg']}",
+            icon=DashIconify(icon="ant-design:exclamation-outlined"),
+        ),*([None] * (return_args_count - 1))
+    return True
+
+
 @app.callback(
     dash.dependencies.Output(ids.notification, "children", allow_duplicate=True),
     dash.dependencies.Input(ids.submit_button, "n_clicks"),
+    dash.dependencies.State(ids.keyword, "value"),
     prevent_initial_call=True,
 )
-def callback(n_clicks):
+# @validate(Input, 1)
+def callback(n_clicks, keyword):
+    validate_res = is_valid(Input, 1,{"keyword": keyword})
+    if validate_res is not True:
+        return validate_res
     return ddc.Notification(
         title="Hey there!",
         id="simple-notify",
