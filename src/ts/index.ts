@@ -13,6 +13,10 @@ import Notification from "./components/Notification";
 import NotificationProvider from "./components/NotificationProvider";
 import React from "react";
 import {Anchor} from '@mantine/core';
+import Accordion from "./components/Accordion";
+import AccordionControl from "./components/AccordionControl";
+import AccordionItem from "./components/AccordionItem";
+import AccordionPanel from "./components/AccordionPanel";
 
 export {
     FunctionCall,
@@ -28,6 +32,10 @@ export {
     Button,
     Notification,
     NotificationProvider,
+    Accordion,
+    AccordionControl,
+    AccordionItem,
+    AccordionPanel
 }
 //@ts-ignore
 var dagcomponentfuncs = (window.dashAgGridComponentFunctions = window.dashAgGridComponentFunctions || {});
