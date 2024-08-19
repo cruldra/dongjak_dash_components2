@@ -17,6 +17,7 @@ import Accordion from "./components/Accordion";
 import AccordionControl from "./components/AccordionControl";
 import AccordionItem from "./components/AccordionItem";
 import AccordionPanel from "./components/AccordionPanel";
+import Textarea from "./components/Textarea";
 
 export {
     FunctionCall,
@@ -35,7 +36,8 @@ export {
     Accordion,
     AccordionControl,
     AccordionItem,
-    AccordionPanel
+    AccordionPanel,
+    Textarea
 }
 //@ts-ignore
 var dagcomponentfuncs = (window.dashAgGridComponentFunctions = window.dashAgGridComponentFunctions || {});

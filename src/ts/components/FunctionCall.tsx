@@ -35,7 +35,7 @@ const FunctionCall: FC<FunctionCallProps> = ({
         {...rest}
     >
         {docs}
-        <Group h={500} className={"p-2"} wrap="nowrap" gap={"sm"}>
+        <Group  className={"p-2"} wrap="nowrap" gap={"sm"}>
             <Stack className={`input-parameters-${generateRandomString()}  h-100% w-35% p-2`}>
                 {inputs}
             </Stack>

@@ -2,7 +2,7 @@
 name = "DongjakDashComponents2"
 uuid = "1b08a953-4be3-4667-9a23-7451b0f3afa8"
 authors = ["cruldra <cruldra@gmail.com>"]
-version = "0.0.19"
+version = "0.0.22"
 
 [deps]
 Dash = "1b08a953-4be3-4667-9a23-3db579824955"
