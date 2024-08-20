@@ -19,6 +19,11 @@ import AccordionItem from "./components/AccordionItem";
 import AccordionPanel from "./components/AccordionPanel";
 import Textarea from "./components/Textarea";
 import LogViewer from "./components/Logviewer";
+import Tabs from "./components/Tabs";
+import TabsList from "./components/TabsList";
+import TabsPanel from "./components/TabsPanel";
+import TabsTab from "./components/TabsTab";
+import UnstyledButton from "./components/UnstyledButton";
 
 
 export {
@@ -40,7 +45,12 @@ export {
     AccordionItem,
     AccordionPanel,
     Textarea,
-    LogViewer
+    LogViewer,
+    Tabs,
+    TabsList,
+    TabsPanel,
+    TabsTab,
+    UnstyledButton
 }
 //@ts-ignore
 var dagcomponentfuncs = (window.dashAgGridComponentFunctions = window.dashAgGridComponentFunctions || {});
