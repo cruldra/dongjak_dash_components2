@@ -201,8 +201,8 @@ def convert_pydantic_model_to_dash_form(
                         id=com_id,
                         # url = 'ws://localhost:8765',
                         url = 'wss://echo.websocket.org',
-                        websocket= True,
-                        isShowTestButton=True,
+                        #websocket= True,
+                        #isShowTestButton=True,
                         # websocketOptions={
                         #     # 'onOpen': lambda e, sock: sock.send(json.dumps({"message": "Socket has been opened!"})),
                         #     # 'formatMessage': lambda e: json.loads(e).get('message', ''),
@@ -285,13 +285,26 @@ class Input(BaseModel):
 class Output(BaseModel):
     logviewer: list = Field(comps_name = "LogViewer")
 
-
+log_viewer_id = f"log-viewer-{shortuuid.uuid()}"
 comps, ids, operations = convert_pydantic_model_to_dash_form(Input)
 comps_output, ids_output, operations_output = convert_pydantic_model_to_dash_form(Output, submit_button=False)
 
 app = function_testing_app(
-    inputs=comps, # 左侧
-    outputs=comps_output, # 右侧
+    inputs=[], # 左侧
+    outputs=ddc.LogViewer(
+                        id=log_viewer_id,
+                        url = 'ws://localhost:8765',
+                        #url = 'wss://echo.websocket.org',
+                        #websocket= True,
+                        #isShowTestButton=True,
+                        # websocketOptions={
+                        #     # 'onOpen': lambda e, sock: sock.send(json.dumps({"message": "Socket has been opened!"})),
+                        #     # 'formatMessage': lambda e: json.loads(e).get('message', ''),
+                        #     # 自动重新连接设置
+                        #     'reconnect': True,
+                        #     'reconnectWait': 1  # 默认时间间隔为1秒
+                        # }
+                    ),  # 右侧
     notifications_container_id=ids.notification
 )
 
@@ -346,18 +359,18 @@ def is_valid(model_type: type, return_args_count: int, kwargs: dict):
     return True
 
 
-@app.callback(
-    operations.notification.as_callback_output(),
-    operations.submit_button.n_clicks_as_input(),
-    operations.keyword.as_callback_state(),
-    prevent_initial_call=True,
-)
-# @validate(Input, 1)
-def callback(n_clicks, keyword):
-    validate_res = is_valid(Input, 1, {"keyword": keyword})
-    if validate_res is not True:
-        return validate_res
-    return operations.notification.show_success("验证成功")
+# @app.callback(
+#     operations.notification.as_callback_output(),
+#     operations.submit_button.n_clicks_as_input(),
+#     operations.keyword.as_callback_state(),
+#     prevent_initial_call=True,
+# )
+# # @validate(Input, 1)
+# def callback(n_clicks, keyword):
+#     validate_res = is_valid(Input, 1, {"keyword": keyword})
+#     if validate_res is not True:
+#         return validate_res
+#     return operations.notification.show_success("验证成功")
 
 
 if __name__ == "__main__":

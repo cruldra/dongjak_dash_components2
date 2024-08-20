@@ -1,34 +1,32 @@
 import asyncio
+import time
+
 import websockets
 import json
 
-# 用于存储当前活跃的 WebSocket 连接
-clients = set()
 
-async def send_periodic_messages(websocket):
-    counter = 1
-    while True:
-        message = {"message": f"This is a message {counter}"}
-        await websocket.send(json.dumps(message))
-        counter += 1  # 每次发送后递增计数器
-        await asyncio.sleep(0.8)  # 每800ms发送一次消息
-
-async def handler(websocket, path):
-    clients.add(websocket)
+# 处理每个客户端连接的协程
+async def handle_client(websocket, path):
     try:
-        async for message in websocket:
-            data = json.loads(message)
-            asyncio.create_task(send_periodic_messages(websocket))
-            # if data["action"] == "start":
-            #     # 启动消息发送任务
-            #     asyncio.create_task(send_periodic_messages(websocket))
-            # elif data["action"] == "stop":
-            #     # 停止消息发送，通过退出循环来停止
-            #     break
-    finally:
-        clients.remove(websocket)
+        while True:
+            # 创建消息
+            message = {"message": f"{time.strftime('%Y-%m-%d %H:%M:%S')}"}
 
-start_server = websockets.serve(handler, "localhost", 8765)
+            # 发送消息给客户端
+            await websocket.send(json.dumps(message))
 
-asyncio.get_event_loop().run_until_complete(start_server)
-asyncio.get_event_loop().run_forever()
+            # 等待5秒
+            await asyncio.sleep(5)
+    except websockets.exceptions.ConnectionClosed:
+        print("客户端断开连接")
+
+
+# 启动WebSocket服务器
+async def main():
+    server = await websockets.serve(handle_client, "localhost", 8765)
+    print("WebSocket服务器已启动在ws://localhost:8765")
+    await server.wait_closed()
+
+
+# 运行服务器
+asyncio.run(main())
