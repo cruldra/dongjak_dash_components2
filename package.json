@@ -16,6 +16,7 @@
     "build:js": "webpack",
     "build:backends": "dash-generate-components ./src/ts/components dongjak_dash_components2 -p package.json --r-prefix '' --jl-prefix '' --ignore \\.test\\.",
     "build": ".\\.venv\\Scripts\\activate && npm run build:js && npm run build:backends",
+    "build-mac": ".venv/bin/activate && npm run build:js && npm run build:backends",
     "watch": "npm run build:js::dev -- --watch",
     "watch-unocss": "unocss --watch"
   },
@@ -23,6 +24,7 @@
     "@mantine/core": "^7.12.0",
     "@mantine/hooks": "^7.12.0",
     "@mantinex/mantine-logo": "^1.0.1",
+    "@melloware/react-logviewer": "^5.2.0",
     "@tabler/icons-react": "^3.12.0",
     "@types/react": "^17.0.39",
     "@unocss/cli": "^0.62.1",

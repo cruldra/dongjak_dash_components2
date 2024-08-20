@@ -10,6 +10,7 @@ from pydantic import BaseModel, Field, ValidationError
 from pydantic_i18n import PydanticI18n
 
 import dongjak_dash_components2 as ddc
+import json
 
 
 class DashComponentOperations:
@@ -193,18 +194,38 @@ def convert_pydantic_model_to_dash_form(
             # raise NotImplementedError
         elif value.type == "array":
             com_id = f"select-{shortuuid.uuid()}"
-            dash_components.append(
-                ddc.Select(
-                    id=com_id,
-                    label=value.title,
-                    description=value.description if value.description else None,
-                    placeholder=value.placeholder,
-                    value=value.default,
-                    data=value.data,
-                    required=key in required,
+            com_logviewer_id = f"logviewer-{shortuuid.uuid()}"
+            if value.comps_name == "LogViewer":
+                dash_components.append(
+                    ddc.LogViewer(
+                        id=com_id,
+                        # url = 'ws://localhost:8765',
+                        url = 'wss://echo.websocket.org',
+                        websocket= True,
+                        isShowTestButton=True,
+                        # websocketOptions={
+                        #     # 'onOpen': lambda e, sock: sock.send(json.dumps({"message": "Socket has been opened!"})),
+                        #     # 'formatMessage': lambda e: json.loads(e).get('message', ''),
+                        #     # 自动重新连接设置
+                        #     'reconnect': True,
+                        #     'reconnectWait': 1  # 默认时间间隔为1秒
+                        # }
+                    ),
                 ),
-            )
-            ids[key] = com_id
+                ids[key] = com_logviewer_id
+            else:
+                dash_components.append(
+                    ddc.Select(
+                        id=com_id,
+                        label=value.title,
+                        description=value.description if value.description else None,
+                        placeholder=value.placeholder,
+                        value=value.default,
+                        data=value.data,
+                        required=key in required,
+                    ),
+                ),
+                ids[key] = com_id
             # raise NotImplementedError
         elif value.type == "object":
             raise NotImplementedError
@@ -261,10 +282,16 @@ class Input(BaseModel):
         ]
     )
 
+class Output(BaseModel):
+    logviewer: list = Field(comps_name = "LogViewer")
+
 
 comps, ids, operations = convert_pydantic_model_to_dash_form(Input)
+comps_output, ids_output, operations_output = convert_pydantic_model_to_dash_form(Output, submit_button=False)
+
 app = function_testing_app(
-    inputs=comps,
+    inputs=comps, # 左侧
+    outputs=comps_output, # 右侧
     notifications_container_id=ids.notification
 )
 
