@@ -195,10 +195,11 @@ def convert_pydantic_model_to_dash_form(
         elif value.type == "array":
             com_id = f"select-{shortuuid.uuid()}"
             com_logviewer_id = f"logviewer-{shortuuid.uuid()}"
+            com_xgplayer_id = f"xgplayer-{shortuuid.uuid()}"
             if value.comps_name == "LogViewer":
                 dash_components.append(
                     ddc.LogViewer(
-                        id=com_id,
+                        id=com_logviewer_id,
                         # url = 'ws://localhost:8765',
                         url = 'wss://echo.websocket.org',
                         #websocket= True,
@@ -213,6 +214,16 @@ def convert_pydantic_model_to_dash_form(
                     ),
                 ),
                 ids[key] = com_logviewer_id
+            elif value.comps_name == "XGPlayer":  
+                dash_components.append(
+                    ddc.XGPlayer(
+                        id=com_xgplayer_id,
+                        # width= 150,
+                        fluid=True,
+                        url = 'http://sf1-cdn-tos.huoshanstatic.com/obj/media-fe/xgplayer_doc_video/mp4/xgplayer-demo-360p.mp4',
+                    ),
+                ),
+                ids[key] = com_xgplayer_id
             else:
                 dash_components.append(
                     ddc.Select(
@@ -281,6 +292,7 @@ class Input(BaseModel):
             {"value": "5", "label": "5分钟"},
         ]
     )
+    xgplayer: list = Field(comps_name = "XGPlayer")
 
 class Output(BaseModel):
     logviewer: list = Field(comps_name = "LogViewer")
@@ -290,7 +302,7 @@ comps, ids, operations = convert_pydantic_model_to_dash_form(Input)
 comps_output, ids_output, operations_output = convert_pydantic_model_to_dash_form(Output, submit_button=False)
 
 app = function_testing_app(
-    inputs=[], # 左侧
+    inputs=comps, # 左侧
     outputs=ddc.LogViewer(
                         id=log_viewer_id,
                         url = 'ws://localhost:8765',
