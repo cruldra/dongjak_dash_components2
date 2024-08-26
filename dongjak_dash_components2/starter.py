@@ -1,16 +1,14 @@
 from typing import Tuple, Any
+
 import dash
 import shortuuid
-import wrapt
 from addict import Dict
 from dash import _dash_renderer, html, dcc
-from dash.exceptions import PreventUpdate
 from dash_iconify import DashIconify
-from pydantic import BaseModel, Field, ValidationError
+from pydantic import ValidationError
 from pydantic_i18n import PydanticI18n
 
 import dongjak_dash_components2 as ddc
-import json
 
 
 class DashComponentOperations:
@@ -270,77 +268,6 @@ def convert_pydantic_model_to_dash_form(
     return dash_components, ids, operations
 # endregion
 
-
-class Input(BaseModel):
-    keyword: str = Field(title="关键字", description="搜索关键字,比如: 留学")
-    fetch_count: int = Field(title="抓取数量", default=10, ge=1, le=200)
-    star_count: int = Field(
-        title="点赞数量", description="仅抓取点赞数量大于该值的视频", default=None
-    )
-    alert: None = Field(
-        title="我是提示", content="您的余额不足，请充值", color="blue"
-    )
-    author: bool = Field(
-        title="作者", description="作者选择", default=True
-    )
-    duration: list = Field(
-        title="时长", description="视频时长", placeholder="请选择视频时长", 
-        default="5",
-        data=[
-            {"value": "1", "label": "1分钟"},
-            {"value": "3", "label": "3分钟"},
-            {"value": "5", "label": "5分钟"},
-        ]
-    )
-    xgplayer: list = Field(comps_name = "XGPlayer")
-
-class Output(BaseModel):
-    logviewer: list = Field(comps_name = "LogViewer")
-
-log_viewer_id = f"log-viewer-{shortuuid.uuid()}"
-comps, ids, operations = convert_pydantic_model_to_dash_form(Input)
-comps_output, ids_output, operations_output = convert_pydantic_model_to_dash_form(Output, submit_button=False)
-
-app = function_testing_app(
-    inputs=comps, # 左侧
-    outputs=ddc.LogViewer(
-                        id=log_viewer_id,
-                        url = 'ws://localhost:8765',
-                        #url = 'wss://echo.websocket.org',
-                        #websocket= True,
-                        #isShowTestButton=True,
-                        # websocketOptions={
-                        #     # 'onOpen': lambda e, sock: sock.send(json.dumps({"message": "Socket has been opened!"})),
-                        #     # 'formatMessage': lambda e: json.loads(e).get('message', ''),
-                        #     # 自动重新连接设置
-                        #     'reconnect': True,
-                        #     'reconnectWait': 1  # 默认时间间隔为1秒
-                        # }
-                    ),  # 右侧
-    notifications_container_id=ids.notification
-)
-
-# def validate(model_type: type, return_args_count: int):
-#     @wrapt.decorator
-#     def wrapper(wrapped, instance, args, kwargs):
-#         if args[0] is None:
-#             raise PreventUpdate
-#         try:
-#             model = model_type(*args[1:])
-#         except ValidationError as e:
-#             return (
-#                 ddc.Notification(
-#                     title="错误",
-#                     id="error-notification",
-#                     action="show",
-#                     message=f"次数已用完,请充值",
-#                     icon=DashIconify(icon="ant-design:exclamation-outlined"),
-#                 ),
-#                 *([None] * (return_args_count - 1)),
-#             )
-#         return wrapped(*args, **kwargs)
-#
-#     return wrapper
 # 定义翻译
 translations = {
     'en_US': {
@@ -369,22 +296,3 @@ def is_valid(model_type: type, return_args_count: int, kwargs: dict):
             icon=DashIconify(icon="ant-design:exclamation-outlined"),
         ), *([None] * (return_args_count - 1))
     return True
-
-
-# @app.callback(
-#     operations.notification.as_callback_output(),
-#     operations.submit_button.n_clicks_as_input(),
-#     operations.keyword.as_callback_state(),
-#     prevent_initial_call=True,
-# )
-# # @validate(Input, 1)
-# def callback(n_clicks, keyword):
-#     validate_res = is_valid(Input, 1, {"keyword": keyword})
-#     if validate_res is not True:
-#         return validate_res
-#     return operations.notification.show_success("验证成功")
-
-
-if __name__ == "__main__":
-    # print(convert_pydantic_model_to_dash_form(Input))
-    app.run_server(debug=True)
