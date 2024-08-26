@@ -24,7 +24,9 @@ import TabsList from "./components/TabsList";
 import TabsPanel from "./components/TabsPanel";
 import TabsTab from "./components/TabsTab";
 import UnstyledButton from "./components/UnstyledButton";
+import Group from "./components/Group";
 import XGPlayer from "./components/XGPlayer";
+import RangeSlider from "./components/RangeSlider";
 
 
 export {
@@ -52,7 +54,9 @@ export {
     TabsPanel,
     TabsTab,
     UnstyledButton,
-    XGPlayer
+    Group,
+    XGPlayer,
+    RangeSlider
 }
 //@ts-ignore
 var dagcomponentfuncs = (window.dashAgGridComponentFunctions = window.dashAgGridComponentFunctions || {});
