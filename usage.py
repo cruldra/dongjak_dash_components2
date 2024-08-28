@@ -1,12 +1,9 @@
+import dash
 import shortuuid
+from dash import _dash_renderer
 from dash import html, dcc
-from pydantic import BaseModel, Field
 
 import dongjak_dash_components2 as ddc
-import dash
-from dash import Dash, _dash_renderer
-
-from dongjak_dash_components2.starter import function_testing_app
 
 notifications_container_id = f"notifications-container-{shortuuid.uuid()}"
 keyword_input_id = f"keyword-input-{shortuuid.uuid()}"
