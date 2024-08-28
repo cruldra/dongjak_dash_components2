@@ -28,6 +28,7 @@ import Group from "./components/Group";
 import XGPlayer from "./components/XGPlayer";
 import RangeSlider from "./components/RangeSlider";
 import Text from "./components/Text";
+import SizeInput from "./components/SizeInput";
 
 
 export {
@@ -58,7 +59,8 @@ export {
     Group,
     XGPlayer,
     RangeSlider,
-    Text
+    Text,
+    SizeInput
 }
 //@ts-ignore
 var dagcomponentfuncs = (window.dashAgGridComponentFunctions = window.dashAgGridComponentFunctions || {});
