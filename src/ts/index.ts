@@ -29,6 +29,7 @@ import XGPlayer from "./components/XGPlayer";
 import RangeSlider from "./components/RangeSlider";
 import Text from "./components/Text";
 import SizeInput from "./components/SizeInput";
+import Slider from "./components/Slider";
 
 
 export {
@@ -60,7 +61,8 @@ export {
     XGPlayer,
     RangeSlider,
     Text,
-    SizeInput
+    SizeInput,
+    Slider
 }
 //@ts-ignore
 var dagcomponentfuncs = (window.dashAgGridComponentFunctions = window.dashAgGridComponentFunctions || {});

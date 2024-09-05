@@ -14,7 +14,7 @@ addict = "^2.4.0"
 shortuuid = "^1.0.13"
 dash-iconify = "^0.1.2"
 pydantic-i18n = "^0.4.4"
-setuptools = "^72.2.0"
+setuptools = "70"
 websockets = "^12.0"
 
 
