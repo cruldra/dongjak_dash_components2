@@ -30,6 +30,7 @@ import RangeSlider from "./components/RangeSlider";
 import Text from "./components/Text";
 import SizeInput from "./components/SizeInput";
 import Slider from "./components/Slider";
+import AdvanceLink from "./components/AdvanceLink";
 
 
 export {
@@ -62,7 +63,8 @@ export {
     RangeSlider,
     Text,
     SizeInput,
-    Slider
+    Slider,
+    AdvanceLink
 }
 //@ts-ignore
 var dagcomponentfuncs = (window.dashAgGridComponentFunctions = window.dashAgGridComponentFunctions || {});

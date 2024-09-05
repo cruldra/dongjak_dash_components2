@@ -40,6 +40,11 @@ app.layout = ddc.MantineProvider(
                 ddc.SizeInput(
                     id=size_input_id,
                 ),
+                ddc.AdvanceLink(
+                    backend="https://jsonplaceholder.typicode.com/posts",
+                    value="路径地址",
+                    cmd="openfile"
+                ),
                 ddc.Button("提交", id="submit-button"),
             ]
         )
