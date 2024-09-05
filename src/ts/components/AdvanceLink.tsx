@@ -38,10 +38,6 @@ const AdvanceLink: React.FC<AdvanceLinkProps> = (props) => {
             console.error('错误:', error); // 输出错误信息
         });
     }
-    
-    useEffect(()=>{
-        getDir()
-    },[])
 
     return (
         <div>
