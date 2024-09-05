@@ -41,7 +41,7 @@ const AdvanceLink: React.FC<AdvanceLinkProps> = (props) => {
 
     return (
         <div>
-            <a style={{cursor:"pointer"}} onClick={getDir}>
+            <a style={{cursor:"pointer",color:"#00ff00"}} onClick={getDir}>
                 {value}
             </a>
         </div>
