@@ -18,7 +18,7 @@ import AccordionControl from "./components/AccordionControl";
 import AccordionItem from "./components/AccordionItem";
 import AccordionPanel from "./components/AccordionPanel";
 import Textarea from "./components/Textarea";
-import LogViewer from "./components/Logviewer";
+import LogViewer from "./components/LogViewer";
 import Tabs from "./components/Tabs";
 import TabsList from "./components/TabsList";
 import TabsPanel from "./components/TabsPanel";
@@ -33,6 +33,7 @@ import Slider from "./components/Slider";
 import AdvanceLink from "./components/AdvanceLink";
 import Tree from "./components/Tree";
 import TaskTree from "./components/TaskTree";
+import Stack from "./components/Stack";
 
 
 export {
@@ -68,7 +69,8 @@ export {
     Slider,
     AdvanceLink,
     Tree,
-    TaskTree
+    TaskTree,
+    Stack,
 }
 //@ts-ignore
 var dagcomponentfuncs = (window.dashAgGridComponentFunctions = window.dashAgGridComponentFunctions || {});

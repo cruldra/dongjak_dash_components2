@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { CSSProperties, FC, useEffect, useState } from 'react';
 import type { DashBaseProps } from "../props/dash";
 import { Group, Tree as MantineTree, TreeNodeData, useTree } from "@mantine/core";
 import { IconChevronDown } from "@tabler/icons-react";
@@ -22,6 +22,9 @@ type Props = {
 
     /** 任务状态指示器,一个sse端点 */
     statusIndicator?: string
+
+    /** 任务节点样式 */
+    style?:CSSProperties
 } & DashBaseProps
 
 const mapTaskToTreeNodeData = (task: TaskNodeData): TreeNodeData => {
@@ -80,7 +83,8 @@ const setTreeNodeDataProp = (treeData: TreeNodeData[], id: string, propName: str
 const TaskTree: FC<Props> = ({
     setProps,
     tasks,
-    statusIndicator
+    statusIndicator,
+    style
 }) => {
 
     const allTasks = tasks.flatMap(flattenTaskTree);
@@ -103,9 +107,9 @@ const TaskTree: FC<Props> = ({
                     loading={true}
                     size={15}
                 />
-            case "completed":
+            case "success":
                 return <span style={{ fontSize: 15 }}>✅</span>
-            case "error":
+            case "failed":
                 return <span style={{ fontSize: 15 }}>❌</span>
             default:
                 return <span style={{ fontSize: 15 }}>⚪</span>
@@ -141,7 +145,7 @@ const TaskTree: FC<Props> = ({
     }, [statusIndicator]);
     //endregion
 
-    return <MantineTree tree={tree} data={treeData} renderNode={renderNode} />
+    return <MantineTree style={style} tree={tree} data={treeData} renderNode={renderNode} />
 };
 
 export default TaskTree;
