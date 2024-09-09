@@ -1,6 +1,6 @@
 {
   "name": "dongjak_dash_components2",
-  "version": "0.0.39",
+  "version": "0.0.40",
   "description": "Project Description",
   "main": "index.ts",
   "repository": {
@@ -53,6 +53,7 @@
     "@mantine/dates": "^7.12.1",
     "@mantine/notifications": "^7.12.1",
     "dayjs": "^1.11.12",
-    "is-absolute-url": "^4.0.1"
+    "is-absolute-url": "^4.0.1",
+    "react-spinners": "^0.14.1"
   }
 }

@@ -1,6 +1,6 @@
 Package: dongjakDashComponents2
 Title: Project Description
-Version: 0.0.39
+Version: 0.0.40
 Description: Project Description
 Depends: R (>= 3.0.2)
 Imports: 

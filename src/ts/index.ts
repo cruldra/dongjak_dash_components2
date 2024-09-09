@@ -31,6 +31,8 @@ import Text from "./components/Text";
 import SizeInput from "./components/SizeInput";
 import Slider from "./components/Slider";
 import AdvanceLink from "./components/AdvanceLink";
+import Tree from "./components/Tree";
+import TaskTree from "./components/TaskTree";
 
 
 export {
@@ -64,7 +66,9 @@ export {
     Text,
     SizeInput,
     Slider,
-    AdvanceLink
+    AdvanceLink,
+    Tree,
+    TaskTree
 }
 //@ts-ignore
 var dagcomponentfuncs = (window.dashAgGridComponentFunctions = window.dashAgGridComponentFunctions || {});

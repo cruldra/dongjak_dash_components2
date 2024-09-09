@@ -15,37 +15,39 @@ const AdvanceLink: React.FC<AdvanceLinkProps> = (props) => {
 
     // 获取目录地址
     const getDir = () => {
-        fetch(backend, {
-            method: 'POST', // 使用POST方法
-            headers: {
-              'Content-Type': 'application/json' // 设置请求头类型为JSON
-            },
-            body: JSON.stringify({ // 将JavaScript对象转换为JSON字符串
-                cmd: cmd, // 将cmd和value作为JSON对象发送
-                value: value,
-            }) 
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('网络响应错误');
-            }
-            return response.json(); // 将响应转换为JSON对象
-        })
-        .then(data => {
-            console.log('成功:', data); // 输出成功返回的数据
-        })
-        .catch(error => {
-            console.error('错误:', error); // 输出错误信息
-        });
+
+        try {
+            fetch(backend, {
+                method: 'POST', // 使用POST方法
+                headers: {
+                    'Content-Type': 'application/json' // 设置请求头类型为JSON
+                },
+                body: JSON.stringify({ // 将JavaScript对象转换为JSON字符串
+                    cmd: cmd, // 将cmd和value作为JSON对象发送
+                    value: value,
+                })
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('网络响应错误');
+                    }
+                    return response.json(); // 将响应转换为JSON对象
+                })
+                .then(data => {
+                    console.log('成功:', data); // 输出成功返回的数据
+                })
+                .catch(error => {
+                     alert('错误:'+error.message);
+                    console.error('错误:', error); // 输出错误信息
+                });
+        } catch (e) {
+            alert(e.message);
+        }
     }
 
-    return (
-        <div>
-            <a style={{cursor:"pointer",color:"#00ff00"}} onClick={getDir}>
+    return   <a style={{cursor:"pointer",color:"#00ff00"}} onClick={getDir}>
                 {value}
             </a>
-        </div>
-    );
 };
 
 export default AdvanceLink;
