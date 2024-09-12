@@ -72,6 +72,7 @@ app.layout = ddc.MantineProvider(
                     value=r"D:\360Downloads",
                     backend="http://localhost:8060/cmd",
                 ),
+                ddc.MdxEditor(),
                 ddc.Button("提交", id="submit-button"),
             ],
             outputs=ddc.TaskTree(

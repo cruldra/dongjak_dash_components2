@@ -34,6 +34,7 @@ import AdvanceLink from "./components/AdvanceLink";
 import Tree from "./components/Tree";
 import TaskTree from "./components/TaskTree";
 import Stack from "./components/Stack";
+import MdxEditor from "./components/MDXEditor";
 
 
 export {
@@ -71,6 +72,7 @@ export {
     Tree,
     TaskTree,
     Stack,
+    MdxEditor
 }
 //@ts-ignore
 var dagcomponentfuncs = (window.dashAgGridComponentFunctions = window.dashAgGridComponentFunctions || {});
