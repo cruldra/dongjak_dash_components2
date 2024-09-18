@@ -73,6 +73,13 @@ app.layout = ddc.MantineProvider(
                     backend="http://localhost:8060/cmd",
                 ),
                 ddc.MdxEditor(),
+                ddc.JsonViewer(
+                    # isShowConfig = False,
+                    # value = {
+                    #     "a": 1,
+                    # }
+                    # themeSelectWidth= 200
+                ),
                 ddc.Button("提交", id="submit-button"),
             ],
             outputs=ddc.TaskTree(

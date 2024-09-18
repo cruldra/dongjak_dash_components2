@@ -35,6 +35,7 @@ import Tree from "./components/Tree";
 import TaskTree from "./components/TaskTree";
 import Stack from "./components/Stack";
 import MdxEditor from "./components/MDXEditor";
+import JsonViewer from "./components/JsonViewer";
 
 
 export {
@@ -72,7 +73,8 @@ export {
     Tree,
     TaskTree,
     Stack,
-    MdxEditor
+    MdxEditor,
+    JsonViewer
 }
 //@ts-ignore
 var dagcomponentfuncs = (window.dashAgGridComponentFunctions = window.dashAgGridComponentFunctions || {});
