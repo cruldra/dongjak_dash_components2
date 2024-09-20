@@ -36,6 +36,7 @@ import TaskTree from "./components/TaskTree";
 import Stack from "./components/Stack";
 import MdxEditor from "./components/MDXEditor";
 import JsonViewer from "./components/JsonViewer";
+import ErrorDialog from "./components/ErrorDialog";
 
 
 export {
@@ -74,7 +75,8 @@ export {
     TaskTree,
     Stack,
     MdxEditor,
-    JsonViewer
+    JsonViewer,
+    ErrorDialog
 }
 //@ts-ignore
 var dagcomponentfuncs = (window.dashAgGridComponentFunctions = window.dashAgGridComponentFunctions || {});

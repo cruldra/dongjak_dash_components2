@@ -80,6 +80,7 @@ app.layout = ddc.MantineProvider(
                     # }
                     # themeSelectWidth= 200
                 ),
+                ddc.ErrorDialog(),
                 ddc.Button("提交", id="submit-button"),
             ],
             outputs=ddc.TaskTree(
