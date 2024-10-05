@@ -9,13 +9,16 @@ pip install dongjak_dash_components2
 ```
 
 ## Development
+
 ### Getting Started
 
 1. Create a new python environment:
+
    ```shell
    python -m venv venv
    . venv/bin/activate
    ```
+
    _Note: venv\Scripts\activate for windows_
 
 2. Install python dependencies:
@@ -42,6 +45,7 @@ pip install dongjak_dash_components2
 ### Publish
 
 If publish on npm:
+
 ```shell
 npm build
 npm publish
