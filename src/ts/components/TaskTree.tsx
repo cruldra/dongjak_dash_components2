@@ -108,8 +108,10 @@ const TaskTree: FC<Props> = ({
                     size={15}
                 />
             case "success":
+            case "success_completed":
                 return <span style={{ fontSize: 15 }}>✅</span>
             case "failed":
+            case "failed_completed":
                 return <span style={{ fontSize: 15 }}>❌</span>
             default:
                 return <span style={{ fontSize: 15 }}>⚪</span>
@@ -119,7 +121,7 @@ const TaskTree: FC<Props> = ({
     const renderNode = ({ node, expanded, hasChildren, elementProps }) => (
         <Group gap={5} {...elementProps}> 
             {
-                getIndicatorByStatus(node.status)
+                getIndicatorByStatus(node.stage.name)
             }
             <span>{node.label}</span>
         </Group>
@@ -133,11 +135,9 @@ const TaskTree: FC<Props> = ({
         }
         const eventSource = new EventSource(statusIndicator);
         eventSource.addEventListener('task_status_update', (event) => {
-            var task=JSON.parse(event.data);
-            console.log(`将任务${task.id}状态设置为${task.status}`);
-            setTreeNodeDataProp(treeData, task.id, 'status', task.status);
-            console.log(treeData)
-            setTreeData([...treeData]);
+            var tree=JSON.parse(event.data);
+            console.log(event.data)
+             setTreeData( tree.data.map(mapTaskToTreeNodeData))
         }, false);
         return () => {
             eventSource.close();

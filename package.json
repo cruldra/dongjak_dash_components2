@@ -1,6 +1,6 @@
 {
   "name": "dongjak_dash_components2",
-  "version": "0.0.44",
+  "version": "0.0.48",
   "description": "Project Description",
   "main": "index.ts",
   "repository": {
@@ -15,7 +15,7 @@
     "build:js::dev": "webpack --mode development",
     "build:js": "webpack",
     "build:backends": "dash-generate-components ./src/ts/components dongjak_dash_components2 -p package.json --r-prefix '' --jl-prefix '' --ignore \\.test\\.",
-    "build": ".\\.venv\\Scripts\\activate && npm run build:js && npm run build:backends",
+    "build": "npm run build:js && npm run build:backends",
     "build-mac": ".venv/bin/activate && npm run build:js && npm run build:backends",
     "watch": "npm run build:js::dev -- --watch",
     "watch-unocss": "unocss --watch"
